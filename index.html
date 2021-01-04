@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <title>MiniCal Widget</title>
+    <link href="css/dycalendar.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- Calendar -->
+    <div id="calendar" class="dycalendar-container"></div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <!--<div class="lwcw" data-options="id=3&format=html"></div>-->
+                    <div class="lwcw" data-options="id=4&format=html"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- javascript -->
+    <script type="text/javascript" id="lw_lwcw" src="//events.susqu.edu/livewhale/theme/core/scripts/lwcw.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="js/dycalendar.js"></script>
+    <script>
+        window.onload = function () {
+            dycalendar.draw({
+                target: '#calendar',
+                type: "month",
+                highlighttoday: true,
+                prevnextbutton: "show"
+            });
+            setOnClicks();
+        }
+
+        function setOnClicks() {
+            var tds = document.getElementsByClassName('dotw');
+            for (var i = 0; i < tds.length; i++) {
+                var td = tds[i];
+                td.onclick = function () {
+
+                    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    var month = months.indexOf(document.getElementsByClassName("dycalendar-span-month-year")[0].innerText.split(" ")[0]);
+                    var year = document.getElementsByClassName("dycalendar-span-month-year")[0].innerText.split(" ")[1];
+                    var date = parseInt(this.innerText);
+
+                    dycalendar.draw({
+                        target: '#calendar',
+                        type: "month",
+                        prevnextbutton: "show",
+                        month: month,
+                        year: year,
+                        date: date,
+                        highlighttargetdate: true
+                    });
+                    document.getElementsByClassName("prev-btn")[0].setAttribute("data-date", parseInt(this.innerText));
+                    document.getElementsByClassName("prev-btn")[0].setAttribute("data-month", month);
+                    document.getElementsByClassName("prev-btn")[0].setAttribute("data-year", year);
+                    document.getElementsByClassName("next-btn")[0].setAttribute("data-date", parseInt(this.innerText));
+                    document.getElementsByClassName("next-btn")[0].setAttribute("data-month", month);
+                    document.getElementsByClassName("next-btn")[0].setAttribute("data-year", year);
+                    setOnClicks();
+                }
+            }
+            //document.getElementsByClassName("prev-btn")[0].onclick = () => setOnClicks();
+            //document.getElementsByClassName("next-btn")[0].onclick = () => setOnClicks();
+        }
+    </script>
+
+</body>
+</html>
